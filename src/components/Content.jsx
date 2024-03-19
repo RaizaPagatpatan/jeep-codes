@@ -7,10 +7,10 @@ function App() {
         ["", "Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel", "India", "Juliet", "Kilo", "Lima", "Mike", "November", "Oscar", "Papa", "Quebec", "Romeo"],
         ["01A", "1", "2", "3", "", "4", "", "5", "", "", "", "", "", "", "", "", "", "", ""],
         ["02B", "1", "", "2", "3", "", "4", "5", "", "", "", "", "", "", "", "", "", "", ""],
-        ["03C", "", "1", "", "2", "", "3", "", "4", "5", "", "", "", "", "", "", "", "", ""],
+        ["03C", "", "", "1", "2", "", "3", "", "4", "5", "", "", "", "", "", "", "", "", ""],
         ["04A", "", "", "1", "", "2", "3", "4", "5", "", "", "", "", "", "", "", "", "", ""],
         ["04D", "", "", "1", "", "", "2", "3", "4", "", "", "", "", "", "", "5", "", "", ""],
-        ["06B", "", "", "", "1", "", "", "", "2", "", "", "3", "4", "5", "", "", "", "", ""],
+        ["06B", "", "", "", "1", "", "", "", "2", "", "3", "4", "5", "", "", "", "", "", ""],
         ["06D", "", "", "", "1", "", "2", "", "3", "", "4", "", "", "", "5", "", "", "", ""],
         ["10C", "", "", "", "", "", "1", "2", "3", "4", "5", "", "", "", "", "", "", "", ""],
         ["10H", "", "", "", "", "", "", "", "1", "", "2", "", "3", "", "", "4", "", "5", ""],
@@ -23,7 +23,6 @@ function App() {
 
     ];
  
-    
     const [inputValue, setInputValue] = useState('');
     const [output, setOutput] = useState('');
 
@@ -68,19 +67,23 @@ function App() {
         const outputText = codes.map(code => {
             const route = findRoute(code.trim());
             if (route) {
-                const formattedRoute = route.map(place => {
+                const updatedRouteFormat = route.map(place => {
                     if (commonPlaces[place] && commonPlaces[place].length > 1) {
                         return `<span style="color: red">${place}</span>`;
+                    } else if (commonPlaces[place] && commonPlaces[place].length === 1) {
+                        return `<span style="color: black">${place}</span>`;
                     }
                     return place;
                 });
-                return `${code} => ${formattedRoute.join(' <-> ')}`;
+                return `${code} => ${updatedRouteFormat.join(' <-> ')}`;
             } else {
                 return `${code} => Route not found`;
             }
         }).join(', ');
         setOutput(outputText);
     };
+
+
 
 
     return (
@@ -93,6 +96,7 @@ function App() {
             <div className="output">
                 <p className="output-text" dangerouslySetInnerHTML={{ __html: output }}></p>
             </div>
+          
 
 
             {/* table display for reference only */}
