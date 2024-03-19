@@ -65,6 +65,7 @@ function App() {
                 <p className="output-text">{output}</p>
             </div>
 
+            {/* table display for reference only */}
             <div className="table-container">
             <table>
                 <tbody>
