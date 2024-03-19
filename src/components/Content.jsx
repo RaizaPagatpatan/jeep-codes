@@ -84,7 +84,7 @@ function App() {
             } else {
                 return `${code} => Route not found`;
             }
-        }).join(', ');
+        }).join('<br>');
         setOutput(outputText);
     };
     
@@ -92,34 +92,33 @@ function App() {
 
 
     return (
-        <div>
+        <div className="container">
             <h2>Routes</h2>
-            <div>
+            <div className="input-container">
                 <input type="text" value={inputValue} onChange={handleInputChange} />
                 <button onClick={handleProcess}>Process</button>
             </div>
             <div className="output">
                 <p className="output-text" dangerouslySetInnerHTML={{ __html: output }}></p>
             </div>
-          
-
-
-            {/* table display for reference only */}
+            
+            {/* Table display for reference only */}
             <div className="table-container">
-            <table>
-                <tbody>
-                    {jeepRoutes.map((row, rowIndex) => (
-                        <tr key={rowIndex}>
-                            {row.map((cellData, colIndex) => (
-                                <td key={colIndex}>{cellData}</td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                <table>
+                    <tbody>
+                        {jeepRoutes.map((row, rowIndex) => (
+                            <tr key={rowIndex}>
+                                {row.map((cellData, colIndex) => (
+                                    <td key={colIndex}>{cellData}</td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );
+    
 }
 
 export default App;
