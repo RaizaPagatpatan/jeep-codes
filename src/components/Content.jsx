@@ -61,7 +61,9 @@ function App() {
                 <input type="text" value={inputValue} onChange={handleInputChange} />
                 <button onClick={handleProcess}>Process</button>
             </div>
-            <div className="output">{output}</div>
+            <div className="output">
+                <p className="output-text">{output}</p>
+            </div>
 
             <div className="table-container">
             <table>
