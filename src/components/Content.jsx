@@ -61,19 +61,24 @@ function App() {
         return null;
     };
 
+    
+
     const handleProcess = () => {
-        const codes = inputValue.split(',');
-        const commonPlaces = findCommonPlaces(codes.map(code => code.trim()));
+        const codes = inputValue.split(',').map(code => code.trim());
+        const commonPlaces = findCommonPlaces(codes);
+        
         const outputText = codes.map(code => {
-            const route = findRoute(code.trim());
+            const route = findRoute(code);
             if (route) {
                 const updatedRouteFormat = route.map(place => {
-                    if (commonPlaces[place] && commonPlaces[place].length > 1) {
+                    const commonCount = commonPlaces[place] ? commonPlaces[place].filter(c => codes.includes(c)).length : 0;
+                    if (commonCount === 2) {
+                        return `<span style="color: blue">${place}</span>`;
+                    } else if (commonCount > 1) {
                         return `<span style="color: red">${place}</span>`;
-                    } else if (commonPlaces[place] && commonPlaces[place].length === 1) {
+                    } else {
                         return `<span style="color: black">${place}</span>`;
                     }
-                    return place;
                 });
                 return `${code} => ${updatedRouteFormat.join(' <-> ')}`;
             } else {
@@ -82,7 +87,7 @@ function App() {
         }).join(', ');
         setOutput(outputText);
     };
-
+    
 
 
 
