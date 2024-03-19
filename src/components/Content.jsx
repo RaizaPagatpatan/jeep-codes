@@ -22,13 +22,30 @@ function App() {
         ["42D", "", "", "", "", "", "", "1", "", "", "2", "3", "", "", "", "4", "5", "", ""]
 
     ];
-    
+ 
     
     const [inputValue, setInputValue] = useState('');
     const [output, setOutput] = useState('');
 
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
+    };
+
+    const findCommonPlaces = (codes) => {
+        const commonPlaces = {};
+        for (const code of codes) {
+            const route = findRoute(code);
+            if (route) {
+                route.forEach(place => {
+                    if (commonPlaces[place]) {
+                        commonPlaces[place].push(code);
+                    } else {
+                        commonPlaces[place] = [code];
+                    }
+                });
+            }
+        }
+        return commonPlaces;
     };
 
     const findRoute = (code) => {
@@ -47,12 +64,24 @@ function App() {
 
     const handleProcess = () => {
         const codes = inputValue.split(',');
+        const commonPlaces = findCommonPlaces(codes.map(code => code.trim()));
         const outputText = codes.map(code => {
             const route = findRoute(code.trim());
-            return route ? `${code} => ${route.join(' <-> ')}` : `${code} => Route not found`;
+            if (route) {
+                const formattedRoute = route.map(place => {
+                    if (commonPlaces[place] && commonPlaces[place].length > 1) {
+                        return `<span style="color: red">${place}</span>`;
+                    }
+                    return place;
+                });
+                return `${code} => ${formattedRoute.join(' <-> ')}`;
+            } else {
+                return `${code} => Route not found`;
+            }
         }).join(', ');
         setOutput(outputText);
     };
+
 
     return (
         <div>
@@ -62,8 +91,9 @@ function App() {
                 <button onClick={handleProcess}>Process</button>
             </div>
             <div className="output">
-                <p className="output-text">{output}</p>
+                <p className="output-text" dangerouslySetInnerHTML={{ __html: output }}></p>
             </div>
+
 
             {/* table display for reference only */}
             <div className="table-container">
