@@ -1,0 +1,28 @@
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 30%; 
+}
+
+td, th {
+    border: 1px solid black;
+    padding: 4px;
+    text-align: center;
+}
+
+th {
+    font-weight: bold;
+}
+
+tr:first-child {
+    font-weight: bold;
+    border: 2px solid black;
+}
+
+td:first-child {
+    font-weight: bold;
+    border: 2px solid black;
+}
